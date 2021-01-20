@@ -1,15 +1,15 @@
 import Head from 'next/head'
-import styles from '../../styles/Home.module.css'
+import styles from '../styles/Home.module.css'
 
 import fetch from 'isomorphic-unfetch';
 import Router from "next/router";
 
 export default function Home({data, page}) {
     let hasNextPage =  () => {
-        return data && data.nextPage !== undefined ? (<button className="btn btn-success mb-5"  onClick={() => Router.push(`/products?page=${parseInt(page) +1}`)}> > </button>) : '';
+        return data && data.nextPage !== undefined ? (<button className="btn btn-success mb-5"  onClick={() => Router.push(`?page=${parseInt(page) +1}`)}> > </button>) : '';
     }
     let hasPreviousPage =  () => {
-        return data && data.previousPage !== undefined ? (<button className={`btn btn-success mb-5 float-right`} onClick={() => Router.push(`/products?page=${parseInt(page) -1}`)}> {'<'}</button>) : '';
+        return data && data.previousPage !== undefined ? (<button className={`btn btn-success mb-5 float-right`} onClick={() => Router.push(`?page=${parseInt(page) -1}`)}> {'<'}</button>) : '';
     }
 
     let getProducts = async (page) => {

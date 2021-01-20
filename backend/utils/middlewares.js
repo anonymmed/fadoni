@@ -1,5 +1,5 @@
 module.exports = {
-    pagination: (model) => {
+    pagination: (model, sorted = false) => {
         return async (req, res, next) => {
 
             let page = parseInt(req.query.page);
@@ -32,14 +32,27 @@ module.exports = {
             }
 
                 if (limit >= nbModels || page -1 > maxPageNb) {
-                    response.data = model.find().exec().then((res) => res).catch((err) => {
-                        res.status(500).json({ message: err.message })
-                    })
-                } else {
-                    response.data = await model.find().limit(limit).skip(start).exec().then((res) => res)
-                        .catch((err) => {
+                    if (sorted) {
+                        response.data = model.find().sort({'name': 1, 'price': 1}).exec().then((res) => res).catch((err) => {
                             res.status(500).json({ message: err.message })
-                        })
+                        });
+                    } else {
+                        response.data = model.find().exec().then((res) => res).catch((err) => {
+                            res.status(500).json({ message: err.message })
+                        });
+                    }
+                } else {
+                    if (sorted) {
+                        response.data = await model.find().sort({'name': 1, 'price': 1}).limit(limit).skip(start).exec().then((res) => res)
+                            .catch((err) => {
+                                res.status(500).json({ message: err.message })
+                            });
+                    } else {
+                        response.data = await model.find().limit(limit).skip(start).exec().then((res) => res)
+                            .catch((err) => {
+                                res.status(500).json({ message: err.message })
+                            });
+                    }
                 }
                 res.data = response
                 next();
