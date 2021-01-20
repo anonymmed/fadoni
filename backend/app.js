@@ -7,6 +7,7 @@ require('./utils/db');
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+
 app.use(cors());
 
 app.get('/api/v1', (req, res) => {
@@ -21,6 +22,6 @@ app.use((req, res) => {
     res.redirect('/api/v1');
 });
 
-app.listen(3000, () => {
+app.listen(4000, () => {
     console.log("Server running on port 3000");
 });
